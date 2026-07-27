@@ -3,9 +3,8 @@
 # Multiclass False Discovery Rate Control
 
 ### Reliable neural-network predictions through selective classification
-
-**Graduation research project by Viktoriia Fokina**  
-[Laboratory on AI for Computational Biology](https://cs.hse.ru/en/ai/aic/) · Faculty of Computer Science · HSE University
+ 
+[Laboratory on AI for Computational Biology](https://cs.hse.ru/en/ai/aic/)
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Jupyter](https://img.shields.io/badge/Experiments-Jupyter-F37626?logo=jupyter&logoColor=white)](code/simulations_clean.ipynb)
