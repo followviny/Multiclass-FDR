@@ -4,8 +4,7 @@
 
 ### Reliable neural-network predictions through selective classification
 
-**Research project by Viktoriia Fokina**  
-[Laboratory on AI for Computational Biology](https://cs.hse.ru/en/ai/aic/) · Faculty of Computer Science · HSE University
+[Laboratory on AI for Computational Biology](https://cs.hse.ru/ai/aic/)
 
 Code, data, and experiments accompanying the paper.
 
