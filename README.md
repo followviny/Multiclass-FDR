@@ -2,70 +2,111 @@
 
 # Multiclass False Discovery Rate Control
 
-**Selective multiclass classification with statistical control of incorrect accepted predictions**
+### Reliable neural-network predictions through selective classification
+
+**Graduation research project by Viktoriia Fokina**  
+[Laboratory on AI for Computational Biology](https://cs.hse.ru/en/ai/aic/) · Faculty of Computer Science · HSE University
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Jupyter](https://img.shields.io/badge/Jupyter-reproducible-F37626?logo=jupyter&logoColor=white)](code/simulations_clean.ipynb)
-[![Thesis](https://img.shields.io/badge/PDF-full_thesis-B31B1B?logo=adobeacrobatreader&logoColor=white)](paper/multiclass_fdr_thesis.pdf)
-[![License](https://img.shields.io/badge/code_license-MIT-2EA44F)](LICENSE)
+[![Jupyter](https://img.shields.io/badge/Experiments-Jupyter-F37626?logo=jupyter&logoColor=white)](code/simulations_clean.ipynb)
+[![Thesis](https://img.shields.io/badge/Thesis-PDF-B31B1B?logo=adobeacrobatreader&logoColor=white)](paper/multiclass_fdr_thesis.pdf)
+[![License](https://img.shields.io/badge/Code-MIT-2EA44F)](LICENSE)
 
 [Read the thesis](paper/multiclass_fdr_thesis.pdf) ·
+[Download the PDF](paper/multiclass_fdr_thesis.pdf?raw=1) ·
 [Explore the experiments](code/simulations_clean.ipynb)
 
 </div>
 
-## Overview
+<p align="center">
+  <img src="figures/cifar10_balanced_results.png" width="100%" alt="Power and FDR of seven procedures on balanced CIFAR-10">
+</p>
 
-Modern classifiers should be able to abstain when they are uncertain. This project studies how to accept only reliable multiclass predictions while keeping the **False Discovery Rate (FDR)** - the expected fraction of mistakes among accepted predictions - below a user-defined level α.
+## What this project is about
 
-The work combines theoretical analysis, controlled simulations, and experiments on CIFAR-10 neural-network logits. It compares naive empirical-null constructions with knockoff, knock-in, Mix-Max, Benjamini-Hochberg, and cascaded procedures.
-
-![Balanced CIFAR-10 results](figures/cifar10_balanced_results.png)
-
-## Main findings
-
-- Naive null-distribution constructions can produce invalid p-values in the multiclass setting.
-- The single-stage knockoff procedure controls FDR under a homogeneous-null assumption.
-- All seven evaluated methods control FDR on CIFAR-10 when calibrated with generated null scores.
-- Cascaded FDR is most useful at strict FDR levels when class proportions are heterogeneous.
-- On balanced data, and at more permissive FDR levels, single-stage methods generally have higher power.
-
-The imbalanced experiment illustrates the regime where the cascade is most useful:
-
-![Imbalanced CIFAR-10 results](figures/cifar10_imbalanced_results.png)
-
-## Methods
-
-| Family | Procedures | Role |
-| --- | --- | --- |
-| Oracle | Ground-truth FDP | Reference for evaluating power and calibration |
-| Target-decoy | Knockoff, knock-in | Estimate false discoveries through target-decoy competition |
-| Distributional | Mix-Max | Estimate both null samples and misclassifications |
-| Multiple testing | Benjamini-Hochberg | Control FDR using empirical per-class p-values |
-| Sequential | Cascaded FDR | Process classes one at a time, prioritizing easier classes |
-
-## Repository structure
+A neural network normally returns a class for every input—even when its prediction is unreliable. This project adds a **statistical decision layer** on top of a multiclass classifier:
 
 ```text
-.
-├── code/
-│   └── simulations_clean.ipynb
-├── data/
-│   ├── cifar10_train_logits.npz
-│   ├── cifar10_test_logits.npz
-│   └── null_viki_cifar_test_logits.npy
-├── figures/
-│   ├── cifar10_balanced_results.png
-│   └── cifar10_imbalanced_results.png
-├── paper/
-│   └── multiclass_fdr_thesis.pdf
-├── requirements.txt
-└── README.md
+image → neural network → class logits → FDR procedure → accept prediction / abstain
 ```
 
-## Reproducing the experiments
+The goal is to accept as many correct predictions as possible while keeping the expected fraction of mistakes among all accepted predictions below a chosen level `α`:
 
-Clone the repository and create an isolated environment:
+```text
+FDR = E[wrong accepted predictions / max(all accepted predictions, 1)] ≤ α
+```
+
+This is a machine-learning reliability problem known as **selective classification**. The classifier produces the logits; the FDR procedure decides which predictions are trustworthy enough to keep.
+
+## Why multiclass FDR is difficult
+
+In binary testing, the null hypothesis is usually clear. After a multiclass `argmax`, an accepted mistake can instead come from two different sources:
+
+- an out-of-distribution sample that belongs to none of the known classes;
+- an in-distribution sample assigned to the wrong class.
+
+Pooling these cases into a naive empirical null can produce invalid p-values. The thesis studies how to estimate false discoveries without observing test labels and how to adapt cascaded FDR control to neural-network logits.
+
+## Contributions
+
+- Shows why two natural empirical-null constructions fail in the multiclass setting.
+- Proves FDR control for the single-stage knock-off procedure under a homogeneous-null assumption.
+- Adapts **Cascaded FDR**, originally developed for tandem mass spectrometry, to multiclass classification by reducing each stage to a binary problem.
+- Extends the cascade from FDR control to classification-accuracy optimization through stage-specific thresholds.
+- Evaluates seven procedures on simulations and CIFAR-10, using conditional normalizing flow generated null logits for calibration.
+
+## Procedures compared
+
+All methods below address the same multiple-testing / FDR-control problem. Benjamini–Hochberg is **not** treated as a separate method family: in this work it is used as the per-stage rule inside one version of the cascade.
+
+| Design | Procedure in the experiments | What it does |
+| --- | --- | --- |
+| Oracle reference | **Ground truth (GT)** | Uses true test labels to show the best attainable calibration; not available in practice |
+| Single-stage target–decoy | **Knock-off (KO / T-TDC)** | Competes target scores against null scores and estimates false discoveries globally |
+| Single-stage target–decoy | **Knock-in (KI / C-TDC)** | A complementary target–decoy estimate based on competition outcomes |
+| Single-stage distributional | **Mix-Max** | Models null samples and multiclass misclassifications in a shared estimate |
+| Cascaded oracle | **Cascade GT** | Applies the cascade with ground-truth FDP at every binary stage |
+| Cascaded target–decoy | **Cascade KO** | Uses knock-off estimation separately at each stage |
+| Cascaded p-values | **Cascade BH** | Computes empirical per-class p-values and applies Benjamini–Hochberg at each binary stage |
+
+The naive empirical-null approaches are diagnostic baselines used to demonstrate the multiclass failure mode; they are not part of the seven-method CIFAR-10 comparison.
+
+## Main results
+
+The experiments use logits from a CNN with **90.1% CIFAR-10 accuracy**, 10,000 test images, 10 classes, and generated null logits.
+
+- All seven evaluated procedures control FDR on CIFAR-10 with the generated null distribution.
+- On balanced data, single-stage methods generally retain more predictions.
+- Under class imbalance and strict `α`, the cascade gains power by processing easier classes before harder ones.
+- At more permissive FDR levels, single-stage methods overtake the cascade.
+- Generated null logits are wider than the true null distribution, which makes the estimates conservative but reduces power.
+
+### Balanced CIFAR-10
+
+<p align="center">
+  <img src="figures/cifar10_balanced_results.png" width="100%" alt="Balanced CIFAR-10: statistical power and observed FDR">
+</p>
+
+Single-stage methods dominate in power while all procedures remain below the target FDR line.
+
+### Imbalanced CIFAR-10
+
+<p align="center">
+  <img src="figures/cifar10_imbalanced_results.png" width="100%" alt="Imbalanced CIFAR-10: statistical power and observed FDR">
+</p>
+
+The imbalanced experiment shows the regime where the cascade is most useful, especially at strict FDR levels.
+
+## Repository
+
+| Path | Contents |
+| --- | --- |
+| [`code/simulations_clean.ipynb`](code/simulations_clean.ipynb) | Simulations, CIFAR-10 experiments, and result visualizations |
+| [`data/`](data/) | Train/test logits, labels, and generated null logits |
+| [`figures/`](figures/) | Figures extracted from the thesis for the project page |
+| [`paper/multiclass_fdr_thesis.pdf`](paper/multiclass_fdr_thesis.pdf) | Full thesis: theory, proofs, experiments, and discussion |
+
+## Running the notebook
 
 ```bash
 git clone https://github.com/followviny/Multiclass-FDR.git
@@ -78,19 +119,11 @@ pip install -r requirements.txt
 jupyter lab code/simulations_clean.ipynb
 ```
 
-The notebook locates `data/` and `figures/` automatically whether Jupyter is launched from the repository root or from `code/`.
-
-Some simulation sections use large sample sizes and repeated parallel runs. Reduce the corresponding `N`, `M`, or repetition parameters for a quick local run.
-
-## Data
-
-- `cifar10_train_logits.npz`: logits and labels for 50,000 CIFAR-10 training samples.
-- `cifar10_test_logits.npz`: logits and labels for 10,000 CIFAR-10 test samples.
-- `null_viki_cifar_test_logits.npy`: 10,000 generated null-logit vectors used for calibration.
+The required CIFAR-10 logits and generated null logits are included in [`data/`](data/). Some experiments use large sample sizes and repeated parallel runs, so a full run may take substantial time.
 
 ## Thesis
 
-The complete theoretical development, proofs, experimental setup, and discussion are available in [the thesis PDF](paper/multiclass_fdr_thesis.pdf).
+The complete theoretical development, proofs, experimental setup, and discussion are available in the **[thesis PDF](paper/multiclass_fdr_thesis.pdf)**. If GitHub's PDF preview is unavailable, use the **[direct download link](paper/multiclass_fdr_thesis.pdf?raw=1)**.
 
 ## Author
 
@@ -98,4 +131,4 @@ The complete theoretical development, proofs, experimental setup, and discussion
 
 ## License
 
-The code and notebook are released under the [MIT License](LICENSE). The thesis text, figures extracted from it, and provided data are © 2026 Viktoriia Fokina and are not covered by the MIT license.
+The code and notebook are released under the [MIT License](LICENSE). The thesis text, extracted figures, and provided data are © 2026 Viktoriia Fokina and are not covered by the MIT license.
