@@ -13,7 +13,7 @@
 [![License](https://img.shields.io/badge/Code-MIT-2EA44F)](LICENSE)
 
 [Read the paper](paper/multiclass_fdr_report.pdf) ·
-[Download the PDF](paper/multiclass_fdr_report.pdf?raw=1) ·
+[Download the PDF](https://github.com/followviny/Multiclass-FDR/raw/refs/heads/main/paper/multiclass_fdr_report.pdf) ·
 [Explore the experiments](code/simulations_clean.ipynb)
 
 </div>
@@ -123,7 +123,7 @@ The required CIFAR-10 logits and generated null logits are included in [`data/`]
 
 ## Paper
 
-The complete theoretical development, proofs, experimental setup, and discussion are available in the **[full paper](paper/multiclass_fdr_report.pdf)**. If GitHub's PDF preview is unavailable, use the **[direct download link](paper/multiclass_fdr_report.pdf?raw=1)**.
+The complete theoretical development, proofs, experimental setup, and discussion are available in the **[full paper](paper/multiclass_fdr_report.pdf)**. If GitHub's PDF preview is unavailable, use the **[direct download link](https://github.com/followviny/Multiclass-FDR/raw/refs/heads/main/paper/multiclass_fdr_report.pdf)**.
 
 ## Author
 
