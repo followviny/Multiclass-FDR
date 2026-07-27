@@ -6,7 +6,7 @@
 
 [Laboratory on AI for Computational Biology](https://cs.hse.ru/ai/aic/)
 
-Research code for a manuscript in preparation. This public repository contains the FDR experiments and prepared logits; the classifier and ENGPE training code are not included.
+Research code for a manuscript in preparation. This public repository contains the FDR experiments and prepared logits.
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Jupyter](https://img.shields.io/badge/Experiments-Jupyter-F37626?logo=jupyter&logoColor=white)](code/simulations_clean.ipynb)
