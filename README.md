@@ -3,16 +3,17 @@
 # Multiclass False Discovery Rate Control
 
 ### Reliable neural-network predictions through selective classification
- 
-[Laboratory on AI for Computational Biology](https://cs.hse.ru/en/ai/aic/)
+
+**Research project by Viktoriia Fokina**  
+[Laboratory on AI for Computational Biology](https://cs.hse.ru/en/ai/aic/) · Faculty of Computer Science · HSE University
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Jupyter](https://img.shields.io/badge/Experiments-Jupyter-F37626?logo=jupyter&logoColor=white)](code/simulations_clean.ipynb)
-[![Thesis](https://img.shields.io/badge/Thesis-PDF-B31B1B?logo=adobeacrobatreader&logoColor=white)](paper/multiclass_fdr_thesis.pdf)
+[![Paper](https://img.shields.io/badge/Paper-PDF-B31B1B?logo=adobeacrobatreader&logoColor=white)](paper/multiclass_fdr_report.pdf)
 [![License](https://img.shields.io/badge/Code-MIT-2EA44F)](LICENSE)
 
-[Read the thesis](paper/multiclass_fdr_thesis.pdf) ·
-[Download the PDF](paper/multiclass_fdr_thesis.pdf?raw=1) ·
+[Read the paper](paper/multiclass_fdr_report.pdf) ·
+[Download the PDF](paper/multiclass_fdr_report.pdf?raw=1) ·
 [Explore the experiments](code/simulations_clean.ipynb)
 
 </div>
@@ -44,7 +45,7 @@ In binary testing, the null hypothesis is usually clear. After a multiclass `arg
 - an out-of-distribution sample that belongs to none of the known classes;
 - an in-distribution sample assigned to the wrong class.
 
-Pooling these cases into a naive empirical null can produce invalid p-values. The thesis studies how to estimate false discoveries without observing test labels and how to adapt cascaded FDR control to neural-network logits.
+Pooling these cases into a naive empirical null can produce invalid p-values. The paper studies how to estimate false discoveries without observing test labels and how to adapt cascaded FDR control to neural-network logits.
 
 ## Contributions
 
@@ -102,8 +103,8 @@ The imbalanced experiment shows the regime where the cascade is most useful, esp
 | --- | --- |
 | [`code/simulations_clean.ipynb`](code/simulations_clean.ipynb) | Simulations, CIFAR-10 experiments, and result visualizations |
 | [`data/`](data/) | Train/test logits, labels, and generated null logits |
-| [`figures/`](figures/) | Figures extracted from the thesis for the project page |
-| [`paper/multiclass_fdr_thesis.pdf`](paper/multiclass_fdr_thesis.pdf) | Full thesis: theory, proofs, experiments, and discussion |
+| [`figures/`](figures/) | Result figures used on the project page |
+| [`paper/multiclass_fdr_report.pdf`](paper/multiclass_fdr_report.pdf) | Full paper: theory, proofs, experiments, and discussion |
 
 ## Running the notebook
 
@@ -120,9 +121,9 @@ jupyter lab code/simulations_clean.ipynb
 
 The required CIFAR-10 logits and generated null logits are included in [`data/`](data/). Some experiments use large sample sizes and repeated parallel runs, so a full run may take substantial time.
 
-## Thesis
+## Paper
 
-The complete theoretical development, proofs, experimental setup, and discussion are available in the **[thesis PDF](paper/multiclass_fdr_thesis.pdf)**. If GitHub's PDF preview is unavailable, use the **[direct download link](paper/multiclass_fdr_thesis.pdf?raw=1)**.
+The complete theoretical development, proofs, experimental setup, and discussion are available in the **[full paper](paper/multiclass_fdr_report.pdf)**. If GitHub's PDF preview is unavailable, use the **[direct download link](paper/multiclass_fdr_report.pdf?raw=1)**.
 
 ## Author
 
@@ -130,4 +131,4 @@ The complete theoretical development, proofs, experimental setup, and discussion
 
 ## License
 
-The code and notebook are released under the [MIT License](LICENSE). The thesis text, extracted figures, and provided data are © 2026 Viktoriia Fokina and are not covered by the MIT license.
+The code and notebook are released under the [MIT License](LICENSE). The PDF report, extracted figures, and provided data are © 2026 Viktoriia Fokina and are not covered by the MIT license.
