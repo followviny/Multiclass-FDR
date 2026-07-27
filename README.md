@@ -7,10 +7,11 @@
 **Research project by Viktoriia Fokina**  
 [Laboratory on AI for Computational Biology](https://cs.hse.ru/en/ai/aic/) · Faculty of Computer Science · HSE University
 
+Code, data, and experiments accompanying the paper.
+
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Jupyter](https://img.shields.io/badge/Experiments-Jupyter-F37626?logo=jupyter&logoColor=white)](code/simulations_clean.ipynb)
 [![Paper](https://img.shields.io/badge/Paper-PDF-B31B1B?logo=adobeacrobatreader&logoColor=white)](paper/multiclass_fdr_report.pdf)
-[![License](https://img.shields.io/badge/Code-MIT-2EA44F)](LICENSE)
 
 [Read the paper](paper/multiclass_fdr_report.pdf) ·
 [Download the PDF](https://github.com/followviny/Multiclass-FDR/raw/refs/heads/main/paper/multiclass_fdr_report.pdf) ·
@@ -70,6 +71,16 @@ All methods below address the same multiple-testing / FDR-control problem. Benja
 | Cascaded p-values | **Cascade BH** | Computes empirical per-class p-values and applies Benjamini–Hochberg at each binary stage |
 
 The naive empirical-null approaches are diagnostic baselines used to demonstrate the multiclass failure mode; they are not part of the seven-method CIFAR-10 comparison.
+
+## Where the logits come from
+
+The repository contains the saved logits used by the notebook, while the paper explains how they were produced.
+
+- **Prediction logits.** A convolutional neural network was trained on the 50,000-image CIFAR-10 training set. It reaches **90.1% accuracy** and produces a 10-dimensional logit vector for each of the 10,000 test images.
+- **Generated null logits.** The calibration logits were produced with **ENGPE**, a conditional normalizing flow trained on the classifier's training data. For each test image, ENGPE conditions on the CNN's latent representation, samples a Gaussian latent vector, and transforms it into a complete 10-dimensional null-logit vector.
+- **Why conditioning matters.** Generating all class logits jointly preserves dependencies between classes, while conditioning on image features lets the null distribution follow changes in the input data. In these experiments, the generated null is wider than the observed non-target logits, yielding conservative FDR estimates.
+
+The prepared arrays are available in [`data/`](data/); the notebook uses them to reproduce the FDR comparisons and figures rather than retraining the CNN or ENGPE model.
 
 ## Main results
 
@@ -131,4 +142,4 @@ The complete theoretical development, proofs, experimental setup, and discussion
 
 ## License
 
-The code and notebook are released under the [MIT License](LICENSE). The PDF report, extracted figures, and provided data are © 2026 Viktoriia Fokina and are not covered by the MIT license.
+The source code and notebook are available under the [MIT License](LICENSE). The paper, figures, and provided data are © 2026 Viktoriia Fokina.
