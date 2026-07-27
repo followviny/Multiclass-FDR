@@ -6,13 +6,13 @@
 
 [Laboratory on AI for Computational Biology](https://cs.hse.ru/ai/aic/)
 
-Code, data, and experiments accompanying the paper.
+Research code for a manuscript in preparation. This public repository contains the FDR experiments and prepared logits; the classifier and ENGPE training code are not included.
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Jupyter](https://img.shields.io/badge/Experiments-Jupyter-F37626?logo=jupyter&logoColor=white)](code/simulations_clean.ipynb)
-[![Paper](https://img.shields.io/badge/Paper-PDF-B31B1B?logo=adobeacrobatreader&logoColor=white)](paper/multiclass_fdr_report.pdf)
+[![Paper](https://img.shields.io/badge/Paper-PDF-B31B1B?logo=adobeacrobatreader&logoColor=white)](paper/multiclass_fdr_preview.pdf)
 
-[Read the paper](paper/multiclass_fdr_report.pdf) ·
+[Read the paper](paper/multiclass_fdr_preview.pdf) ·
 [Download the PDF](https://github.com/followviny/Multiclass-FDR/raw/refs/heads/main/paper/multiclass_fdr_report.pdf) ·
 [Explore the experiments](code/simulations_clean.ipynb)
 
@@ -133,7 +133,7 @@ The required CIFAR-10 logits and generated null logits are included in [`data/`]
 
 ## Paper
 
-The complete theoretical development, proofs, experimental setup, and discussion are available in the **[full paper](paper/multiclass_fdr_report.pdf)**. If GitHub's PDF preview is unavailable, use the **[direct download link](https://github.com/followviny/Multiclass-FDR/raw/refs/heads/main/paper/multiclass_fdr_report.pdf)**.
+The complete theoretical development, proofs, experimental setup, and discussion are available in the **[full paper](paper/multiclass_fdr_preview.pdf)**. If GitHub's PDF preview is unavailable, use the **[direct download link](https://github.com/followviny/Multiclass-FDR/raw/refs/heads/main/paper/multiclass_fdr_report.pdf)**.
 
 ## Author
 
