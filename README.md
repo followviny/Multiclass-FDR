@@ -68,8 +68,6 @@ All methods below address the same multiple-testing / FDR-control problem.
 | Cascaded target–decoy | **Cascade KO** | Uses knock-off estimation separately at each stage |
 | Cascaded p-values | **Cascade BH** | Computes empirical per-class p-values and applies Benjamini–Hochberg at each binary stage |
 
-The naive empirical-null approaches are diagnostic baselines used to demonstrate the multiclass failure mode; they are not part of the seven-method CIFAR-10 comparison.
-
 ## Where the logits come from
 
 The repository contains the saved logits used by the notebook, while the paper explains how they were produced.
