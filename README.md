@@ -57,8 +57,7 @@ Pooling these cases into a naive empirical null can produce invalid p-values. Th
 
 ## Procedures compared
 
-All methods below address the same multiple-testing / FDR-control problem. Benjamini–Hochberg is **not** treated as a separate method family: in this work it is used as the per-stage rule inside one version of the cascade.
-
+All methods below address the same multiple-testing / FDR-control problem.
 | Design | Procedure in the experiments | What it does |
 | --- | --- | --- |
 | Oracle reference | **Ground truth (GT)** | Uses true test labels to show the best attainable calibration; not available in practice |
